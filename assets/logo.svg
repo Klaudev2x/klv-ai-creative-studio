@@ -1,41 +1,42 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <!-- Shared ramp: cyan (stem top) -> blue -> indigo -> violet -> magenta (leg tip) -->
-    <linearGradient id="klvRamp" x1="80" y1="50" x2="500" y2="500" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#2FB9F8"/>
+    <!-- Shared ramp: cyan (stem top) -> blue -> indigo -> violet -> magenta (claw tip) -->
+    <linearGradient id="klvRamp" x1="7" y1="1" x2="505" y2="511" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2FC3F1"/>
       <stop offset=".30" stop-color="#2E7CF6"/>
       <stop offset=".55" stop-color="#5A4AF0"/>
       <stop offset=".8" stop-color="#8B2FF0"/>
-      <stop offset="1" stop-color="#C63CFF"/>
+      <stop offset="1" stop-color="#D02FFF"/>
     </linearGradient>
-    <!-- Play button runs cooler: blue top, violet bottom -->
-    <linearGradient id="klvPlay" x1="330" y1="215" x2="400" y2="355" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#3D9BF6"/>
-      <stop offset="1" stop-color="#9C36F8"/>
+    <!-- Play button: blue top -> violet bottom -->
+    <linearGradient id="klvPlay" x1="352" y1="185" x2="420" y2="345" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2F9FF6"/>
+      <stop offset="1" stop-color="#A032F8"/>
     </linearGradient>
     <!-- K arm: blue band -->
-    <linearGradient id="klvArm" x1="330" y1="110" x2="240" y2="320" gradientUnits="userSpaceOnUse">
+    <linearGradient id="klvArm" x1="480" y1="30" x2="240" y2="330" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#2E7CF6"/>
       <stop offset="1" stop-color="#4740E8"/>
     </linearGradient>
   </defs>
 
-  <!-- Stem + swoosh leg as one continuous fill -->
+  <!-- Stem + swoosh leg as one continuous fill (fills the full canvas) -->
   <path fill="url(#klvRamp)" d="
-    M 190 122
-    Q 190 64 134 64
-    Q 79 64 79 122
-    L 79 425
-    Q 79 500 155 503
-    L 466 469
-    L 452 447
-    L 206 290
-    L 190 296
+    M 167 81
+    Q 167 1 87 1
+    Q 7 1 7 81
+    L 7 428
+    Q 7 511 150 511
+    L 490 511
+    L 505 509
+    L 448 406
+    L 187 276
+    L 167 283
     Z"/>
 
-  <!-- K arm: sharp-cut blue band -->
-  <path fill="url(#klvArm)" d="M 203 290 L 450 68 L 505 118 L 152 322 Z"/>
+  <!-- K arm: sharp band in from the top right, sharing the junction point -->
+  <path fill="url(#klvArm)" d="M 187 276 L 495 6 L 510 72 L 240 330 Z"/>
 
   <!-- Play button: the K's beat -->
-  <path fill="url(#klvPlay)" stroke="url(#klvPlay)" stroke-width="36" stroke-linejoin="round" d="M 322 236 L 399 280 L 322 324 Z"/>
+  <path fill="url(#klvPlay)" stroke="url(#klvPlay)" stroke-width="48" stroke-linejoin="round" d="M 352 200 L 470 266 L 352 331 Z"/>
 </svg>
