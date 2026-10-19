@@ -1,0 +1,20 @@
+<svg width="720" height="720" viewBox="0 0 720 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="720" fill="#080507"/>
+  <rect x="42" y="42" width="636" height="636" rx="38" fill="#120B10" stroke="#38202B" stroke-width="2"/>
+  <path d="M112 602L190 164H530L608 602H112Z" fill="#171018" stroke="#FFFFFF" stroke-opacity=".1" stroke-width="2"/>
+  <path d="M236 602L278 164M484 602L442 164" stroke="#FFFFFF" stroke-opacity=".08" stroke-width="6"/>
+  <path d="M312 602V276C312 238 334 214 360 214C386 214 408 238 408 276V602H312Z" fill="#07070A"/>
+  <path d="M346 382C360 372 374 372 388 382" stroke="#4DA3FF" stroke-width="8" stroke-linecap="round" opacity=".7"/>
+  <circle cx="340" cy="330" r="10" fill="#E8EEF6"/>
+  <circle cx="380" cy="330" r="10" fill="#E8EEF6"/>
+  <path d="M118 220H250M470 220H602M126 512H232M488 512H594" stroke="#4DA3FF" stroke-opacity=".34" stroke-width="8" stroke-linecap="round"/>
+  <path d="M84 602H636" stroke="#FFFFFF" stroke-opacity=".18" stroke-width="8" stroke-linecap="round"/>
+  <rect x="42" y="42" width="636" height="636" rx="38" fill="url(#horror-vignette)"/>
+  <defs>
+    <radialGradient id="horror-vignette" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(360 350) rotate(90) scale(350 360)">
+      <stop stop-color="#000000" stop-opacity="0"/>
+      <stop offset=".72" stop-color="#000000" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#000000" stop-opacity=".66"/>
+    </radialGradient>
+  </defs>
+</svg>

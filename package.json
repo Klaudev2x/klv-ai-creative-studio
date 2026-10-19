@@ -1,0 +1,16 @@
+{
+  "name": "klv-ai-creative-studio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Premium AI creative studio frontend with account auth and Paystack subscriptions.",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "eslint": "^10.4.1"
+  }
+}

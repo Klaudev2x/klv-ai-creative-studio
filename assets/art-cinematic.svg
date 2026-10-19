@@ -1,0 +1,21 @@
+<svg width="720" height="720" viewBox="0 0 720 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="720" fill="#050506"/>
+  <rect x="42" y="42" width="636" height="636" rx="38" fill="#0D0E10" stroke="#2B2F36" stroke-width="2"/>
+  <path d="M42 500L678 300V678H42V500Z" fill="#101A28"/>
+  <path d="M108 172H612V492H108V172Z" fill="#15181E" stroke="#FFFFFF" stroke-opacity=".14" stroke-width="2"/>
+  <path d="M128 196H592V468H128V196Z" fill="#08090B"/>
+  <path d="M128 468L286 298L390 392L484 274L592 468H128Z" fill="#17283E"/>
+  <path d="M286 298L340 347L292 360L260 330L286 298Z" fill="#DDE7F0"/>
+  <path d="M484 274L536 366L464 350L446 322L484 274Z" fill="#DDE7F0"/>
+  <path d="M220 570H500" stroke="#4DA3FF" stroke-width="12" stroke-linecap="round"/>
+  <path d="M250 606H470" stroke="#FFFFFF" stroke-opacity=".18" stroke-width="10" stroke-linecap="round"/>
+  <path d="M148 118H222M498 118H572M148 552H190M530 552H572" stroke="#4DA3FF" stroke-opacity=".72" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="522" cy="246" r="42" fill="#4DA3FF" opacity=".8"/>
+  <rect x="128" y="196" width="464" height="272" fill="url(#cinematic-vignette)"/>
+  <defs>
+    <radialGradient id="cinematic-vignette" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(360 332) rotate(90) scale(220 360)">
+      <stop stop-color="#FFFFFF" stop-opacity=".08"/>
+      <stop offset="1" stop-color="#000000" stop-opacity=".46"/>
+    </radialGradient>
+  </defs>
+</svg>

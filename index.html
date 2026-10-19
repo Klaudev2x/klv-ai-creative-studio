@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#04050a">
+    <meta
+      name="description"
+      content="klv.ai is a premium AI creative studio for images, videos, prompt enhancement, saved history, subscriptions, and creator accounts."
+    >
+    <title>klv.ai - AI Creative Studio</title>
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/assets/logo.svg">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="application-name" content="klv.ai">
+    <meta name="msapplication-TileImage" content="/assets/logo.svg">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="noise" aria-hidden="true"></div>
+    <header class="site-header" data-elevated="false">
+      <a class="brand" href="/" data-link aria-label="klv.ai home">
+        <img src="/assets/logo.svg" alt="" class="brand-mark">
+        <img src="/assets/wordmark.svg" alt="klv.ai" class="brand-wordmark">
+      </a>
+
+      <nav class="primary-nav" aria-label="Primary">
+        <a href="/" data-link data-route-link="/">Home</a>
+        <a href="/create" data-link data-route-link="/create">Create</a>
+        <a href="/explore" data-link data-route-link="/explore">Explore</a>
+        <a href="/pricing" data-link data-route-link="/pricing">Pricing</a>
+        <a href="/dashboard" data-link data-route-link="/dashboard">Dashboard</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="ghost-button small" type="button" data-open-auth="signin">Sign in</button>
+        <button class="primary-button small signup-button" type="button" data-open-auth="signup">Sign up</button>
+        <button class="icon-button menu-toggle" type="button" aria-label="Open navigation" data-menu-toggle>
+          <span class="icon menu-icon" aria-hidden="true"></span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="page home-page active" data-page="/">
+        <div class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">AI creative studio</p>
+            <h1>Create Images. Generate Videos. <em class="serif-accent">Instantly.</em></h1>
+            <p class="hero-subtitle">From rough idea to cinematic output, klv.ai turns prompts into studio-grade visuals with saved history, account plans, and creator profiles.</p>
+          </div>
+
+          <form class="prompt-composer hero-composer glass-panel" data-generate-form>
+            <div class="segmented-control" role="tablist" aria-label="Generation mode">
+              <button type="button" class="segment active" data-mode="image" aria-selected="true">Image</button>
+              <button type="button" class="segment" data-mode="video" aria-selected="false">Video</button>
+            </div>
+            <label class="sr-only" for="home-prompt">Prompt</label>
+            <div class="prompt-dropzone" data-dropzone>
+              <textarea id="home-prompt" name="prompt" rows="3" placeholder="A cinematic glass studio where AI-generated portraits and video frames float in blue light"></textarea>
+              <div class="upload-row">
+                <button class="icon-button add-image-button" type="button" aria-label="Add reference image" data-pick-image>
+                  <span class="icon plus-icon" aria-hidden="true"></span>
+                </button>
+                <div class="image-previews" data-image-previews></div>
+              </div>
+              <input type="file" accept="image/*" multiple hidden data-file-input>
+            </div>
+            <div class="composer-actions">
+              <button class="ghost-button" type="button" data-enhance-prompt>Enhance</button>
+              <button class="primary-button" type="submit">
+                <span class="icon spark-icon" aria-hidden="true"></span>
+                Generate
+              </button>
+            </div>
+          </form>
+
+          <div class="example-prompts" aria-label="Example prompts">
+            <button type="button" data-example="A noir fashion portrait in reflective rain, 85mm lens, silver highlights">Noir fashion portrait</button>
+            <button type="button" data-example="A clean 3D product film of a black electric coupe rotating in a neon studio">Electric coupe product film</button>
+            <button type="button" data-example="A futuristic founder desk setup with holographic media panels, premium dark SaaS mood">Founder studio setup</button>
+          </div>
+
+          <div class="inspiration-rail" aria-label="Creative categories">
+            <button type="button" data-category-style="Cartoon" data-category-prompt="A playful cartoon character in a bright AI studio, crisp premium illustration">
+              <img src="/assets/art-cartoon.svg" alt="">
+              <span>Cartoon</span>
+            </button>
+            <button type="button" data-category-style="Anime" data-category-prompt="An anime heroine with glowing media panels, dramatic blue light, crisp cinematic detail">
+              <img src="/assets/art-anime.svg" alt="">
+              <span>Anime</span>
+            </button>
+            <button type="button" data-category-style="Realistic" data-category-prompt="A realistic portrait in a golden field, shallow depth of field, premium photo finish">
+              <img src="/assets/art-realistic.svg" alt="">
+              <span>Photography</span>
+            </button>
+            <button type="button" data-category-style="3D Render" data-category-prompt="A futuristic 3D product render with glass panels, neon blue reflections, clean studio">
+              <img src="/assets/art-render.svg" alt="">
+              <span>3D render</span>
+            </button>
+            <button type="button" data-category-style="Cinematic" data-category-prompt="A cinematic AI artwork interface with dramatic mountain light, high-end composition">
+              <img src="/assets/art-cinematic.svg" alt="">
+              <span>Painting</span>
+            </button>
+            <button type="button" data-category-style="Horror" data-category-prompt="A moody horror corridor with restrained tension, soft blue emergency lights, no gore">
+              <img src="/assets/art-horror.svg" alt="">
+              <span>Dark art</span>
+            </button>
+            <button type="button" data-category-style="Cinematic" data-category-prompt="A short AI video keyframe of an explorer watching two moons over a surreal valley">
+              <img src="/assets/art-video.svg" alt="">
+              <span>Video ideas</span>
+            </button>
+          </div>
+
+          <div class="hero-showcase" aria-hidden="true">
+            <div class="holo-frame frame-one"></div>
+            <div class="holo-frame frame-two"></div>
+            <div class="holo-frame frame-three"></div>
+            <div class="timeline-strip">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+
+        <section class="studio-band">
+          <div class="metric-row">
+            <button class="metric-card" type="button" data-studio-shortcut="image" aria-label="Open image generation studio">
+              <span>Image</span>
+              <strong>Text to visual</strong>
+            </button>
+            <button class="metric-card" type="button" data-studio-shortcut="video" aria-label="Open video generation studio">
+              <span>Video</span>
+              <strong>Short clips + audio</strong>
+            </button>
+            <button class="metric-card" type="button" data-studio-shortcut="profile" aria-label="Open creator account dashboard">
+              <span>Account</span>
+              <strong>Sign in + sign up</strong>
+            </button>
+            <button class="metric-card" type="button" data-studio-shortcut="pricing" aria-label="Open pricing plans from Free to Max">
+              <span>Plans</span>
+              <strong>Free to Max</strong>
+            </button>
+          </div>
+        </section>
+      </section>
+
+      <section class="page create-page" data-page="/create">
+        <div class="page-heading">
+          <p class="eyebrow">Create</p>
+          <h2>Build the next <em>frame.</em></h2>
+        </div>
+
+        <div class="studio-layout">
+          <form class="studio-controls glass-panel" data-generate-form>
+            <label class="field-label" for="create-prompt">Prompt</label>
+            <div class="prompt-dropzone large" data-dropzone>
+              <textarea id="create-prompt" name="prompt" rows="7" placeholder="Describe the shot, subject, camera, lighting, movement, texture, and mood"></textarea>
+              <div class="upload-row">
+                <button class="icon-button add-image-button" type="button" aria-label="Add reference image" data-pick-image>
+                  <span class="icon plus-icon" aria-hidden="true"></span>
+                </button>
+                <div class="image-previews" data-image-previews></div>
+              </div>
+              <input type="file" accept="image/*" multiple hidden data-file-input>
+            </div>
+
+            <div class="control-line">
+              <span class="field-label">Mode</span>
+              <div class="segmented-control compact" role="tablist" aria-label="Create mode">
+                <button type="button" class="segment active" data-mode="image" aria-selected="true">Image</button>
+                <button type="button" class="segment" data-mode="video" aria-selected="false">Video</button>
+              </div>
+            </div>
+
+            <fieldset class="style-field">
+              <legend>Style</legend>
+              <div class="style-grid" data-style-grid>
+                <button type="button" class="style-chip active" data-style="Cinematic">Cinematic</button>
+                <button type="button" class="style-chip" data-style="Anime">Anime</button>
+                <button type="button" class="style-chip" data-style="Cartoon">Cartoon</button>
+                <button type="button" class="style-chip" data-style="Realistic">Realistic</button>
+                <button type="button" class="style-chip" data-style="3D Render">3D Render</button>
+                <button type="button" class="style-chip" data-style="Horror">Horror</button>
+                <button type="button" class="style-chip" data-style="Stickman">Stickman</button>
+                <button type="button" class="style-chip" data-style="Illustrated">Illustrated</button>
+                <button type="button" class="style-chip" data-style="Sketch">Sketch</button>
+                <button type="button" class="style-chip" data-style="Vector">Vector</button>
+                <button type="button" class="style-chip" data-style="Comic">Comic</button>
+                <button type="button" class="style-chip" data-style="Whiteboard">Whiteboard</button>
+              </div>
+            </fieldset>
+
+            <fieldset class="color-field">
+              <legend>Colors</legend>
+
+              <div class="control-line">
+                <span class="field-label">Mode</span>
+                <div class="segmented-control compact" role="tablist" aria-label="Color mode">
+                  <button type="button" class="segment active" data-color-mode="full" aria-selected="true">Full color</button>
+                  <button type="button" class="segment" data-color-mode="bw" aria-selected="false">B&amp;W</button>
+                  <button type="button" class="segment" data-color-mode="grayscale" aria-selected="false">Grayscale</button>
+                  <button type="button" class="segment" data-color-mode="sketch" aria-selected="false">Sketch</button>
+                </div>
+              </div>
+
+              <div class="color-rows">
+                <label class="color-row">
+                  <span>Skin &amp; body</span>
+                  <span class="color-controls">
+                    <input type="color" data-color="skin" value="#f7c59f" aria-label="Skin and body color">
+                    <input type="text" class="hex-input" data-hex="skin" value="#f7c59f" maxlength="7" spellcheck="false" aria-label="Skin and body HEX code">
+                  </span>
+                </label>
+                <label class="color-row">
+                  <span>Clothing</span>
+                  <span class="color-controls">
+                    <input type="color" data-color="outfit" value="#4da3ff" aria-label="Clothing color">
+                    <input type="text" class="hex-input" data-hex="outfit" value="#4da3ff" maxlength="7" spellcheck="false" aria-label="Clothing HEX code">
+                  </span>
+                </label>
+                <label class="color-row">
+                  <span>Hair</span>
+                  <span class="color-controls">
+                    <input type="color" data-color="hair" value="#2b241c" aria-label="Hair color">
+                    <input type="text" class="hex-input" data-hex="hair" value="#2b241c" maxlength="7" spellcheck="false" aria-label="Hair HEX code">
+                  </span>
+                </label>
+                <label class="color-row">
+                  <span>Background</span>
+                  <span class="color-controls">
+                    <input type="color" data-color="background" value="#101418" aria-label="Background color">
+                    <input type="text" class="hex-input" data-hex="background" value="#101418" maxlength="7" spellcheck="false" aria-label="Background HEX code">
+                  </span>
+                </label>
+                <label class="color-row">
+                  <span>Props</span>
+                  <span class="color-controls">
+                    <input type="color" data-color="props" value="#6df0ae" aria-label="Props color">
+                    <input type="text" class="hex-input" data-hex="props" value="#6df0ae" maxlength="7" spellcheck="false" aria-label="Props HEX code">
+                  </span>
+                </label>
+              </div>
+
+              <div class="palette-row" data-palette-row aria-label="Preset palettes"></div>
+            </fieldset>
+
+            <div class="slider-row">
+              <label for="quality-range">Quality</label>
+              <input id="quality-range" type="range" min="1" max="5" value="4" data-quality>
+            </div>
+
+            <div class="composer-actions">
+              <button class="ghost-button" type="button" data-enhance-prompt>Enhance</button>
+              <button class="primary-button" type="submit">
+                <span class="icon spark-icon" aria-hidden="true"></span>
+                Generate
+              </button>
+            </div>
+          </form>
+
+          <section class="output-panel glass-panel" aria-labelledby="output-title">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Output</p>
+                <h3 id="output-title">Gallery</h3>
+              </div>
+              <div class="queue-stack">
+                <div class="queue-pill" data-queue-status>Shared queue</div>
+                <div class="queue-pill trial-pill" data-trial-status>Free · unlimited</div>
+              </div>
+            </div>
+            <div class="output-grid" data-output-grid></div>
+          </section>
+        </div>
+
+        <section class="audio-panel glass-panel" aria-labelledby="audio-title">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Voiceover</p>
+              <h3 id="audio-title">AI narration &amp; dialogue</h3>
+            </div>
+            <span class="audio-status" data-voice-status data-variant="info">Voice provider ready</span>
+          </div>
+          <div class="audio-grid">
+            <div class="audio-script">
+              <label class="field-label" for="narration-script">Script</label>
+              <textarea id="narration-script" rows="4" placeholder="Type the narration or character dialogue for the animation…" data-narration-script></textarea>
+            </div>
+            <div class="audio-voice">
+              <label class="field-label" for="voice-select">Voice</label>
+              <select id="voice-select" data-voice-select disabled>
+                <option value="" selected>Loading voices…</option>
+              </select>
+              <div class="voice-sliders">
+                <label class="voice-slider" for="voice-stability">
+                  <span>Stability</span>
+                  <input id="voice-stability" type="range" min="0" max="1" step="0.05" value="0.5" data-voice-setting="stability">
+                </label>
+                <label class="voice-slider" for="voice-similarity">
+                  <span>Similarity</span>
+                  <input id="voice-similarity" type="range" min="0" max="1" step="0.05" value="0.75" data-voice-setting="similarity">
+                </label>
+                <label class="voice-slider" for="voice-style">
+                  <span>Expressiveness</span>
+                  <input id="voice-style" type="range" min="0" max="1" step="0.05" value="0.45" data-voice-setting="style">
+                </label>
+                <label class="voice-slider" for="voice-speed">
+                  <span>Speed</span>
+                  <input id="voice-speed" type="range" min="0.7" max="1.2" step="0.05" value="1" data-voice-setting="speed">
+                </label>
+              </div>
+            </div>
+            <div class="audio-result">
+              <span class="field-label">Output</span>
+              <audio controls hidden data-audio-player></audio>
+              <div class="composer-actions audio-actions">
+                <button class="ghost-button" type="button" data-preview-voice>Preview voice</button>
+                <button class="primary-button" type="button" data-generate-voice>Generate voiceover</button>
+              </div>
+              <div class="upload-row">
+                <button class="ghost-button" type="button" data-upload-audio>Upload your own audio</button>
+                <input type="file" accept="audio/*" hidden data-audio-input>
+              </div>
+              <p class="audio-note" data-audio-note></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="caption-panel glass-panel" aria-labelledby="caption-title">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Captions</p>
+              <h3 id="caption-title">Descript-style captions</h3>
+            </div>
+            <span class="audio-status" data-caption-status data-variant="info">No captions yet</span>
+          </div>
+          <div class="caption-toolbar">
+            <div class="caption-sources">
+              <button class="ghost-button" type="button" data-caption-transcribe>Transcribe audio</button>
+              <button class="ghost-button" type="button" data-caption-script>Auto-time script</button>
+              <button class="ghost-button" type="button" data-caption-import>Import SRT/VTT</button>
+              <input type="file" accept=".srt,.vtt,text/plain" hidden data-caption-file>
+              <button class="ghost-button" type="button" data-caption-clear>Clear</button>
+            </div>
+            <div class="caption-style-row">
+              <select data-caption-preset aria-label="Caption style">
+                <option value="karaoke" selected>Karaoke highlight</option>
+                <option value="clean">Clean</option>
+                <option value="outline">Bold outline</option>
+              </select>
+              <label class="caption-option">
+                <span>Size</span>
+                <input type="range" min="16" max="48" step="2" value="24" data-caption-size>
+              </label>
+              <select data-caption-position aria-label="Caption position">
+                <option value="bottom" selected>Bottom</option>
+                <option value="middle">Middle</option>
+                <option value="top">Top</option>
+              </select>
+              <label class="caption-option">
+                <span>Offset&nbsp;±</span>
+                <input type="number" min="-10" max="10" step="0.1" value="0" data-caption-offset>
+              </label>
+            </div>
+          </div>
+          <div class="caption-stage" data-caption-stage data-position="bottom">
+            <p class="caption-preview" data-caption-preview>Play the voiceover to preview captions.</p>
+          </div>
+          <div class="caption-editor" data-caption-editor hidden></div>
+          <div class="composer-actions caption-actions">
+            <button class="ghost-button" type="button" data-caption-export-srt>Export .srt</button>
+            <button class="ghost-button" type="button" data-caption-export-vtt>Export .vtt</button>
+          </div>
+          <p class="audio-note" data-caption-note>Transcribe uses the server-side provider; Auto-time script and SRT import always work free.</p>
+        </section>
+
+        <section class="workflow-panel glass-panel" aria-labelledby="workflow-title">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Workflow</p>
+              <h3 id="workflow-title">Script to animated storyboard</h3>
+            </div>
+            <span class="audio-status" data-workflow-status data-variant="info">No scenes yet</span>
+          </div>
+          <div class="caption-toolbar">
+            <div class="caption-sources">
+              <button class="ghost-button" type="button" data-scenes-build>1 · Build scenes from script</button>
+              <button class="ghost-button" type="button" data-scenes-ai title="The AI director breaks your script into a shot list with concrete visual descriptions">AI scene director</button>
+              <button class="ghost-button" type="button" data-scenes-generate>2 · Render scene images</button>
+              <button class="ghost-button" type="button" data-reroll-seed title="New random character seed — changes the look of the generated character in all scenes">Reroll character</button>
+            </div>
+            <div class="caption-sources">
+              <button class="ghost-button" type="button" data-workflow-play disabled>3 · Play synced preview</button>
+              <button class="ghost-button" type="button" data-workflow-save disabled>4 · Save to library</button>
+            </div>
+          </div>
+          <div class="scene-strip" data-scene-strip></div>
+          <div class="workflow-stage" data-workflow-stage>
+            <img data-workflow-frame alt="" hidden>
+            <div class="workflow-caption-layer" data-workflow-caption-layer></div>
+            <div class="workflow-progress"><span data-workflow-progress></span></div>
+            <div class="workflow-stage-empty" data-workflow-hint>Build scenes, render images, then play — scene timing follows your voiceover.</div>
+          </div>
+          <p class="audio-note" data-workflow-note>Free tier: up to 8 scenes per run, rendered one at a time. Preview is an animated storyboard (real rendered video is not available on free providers).</p>
+        </section>
+      </section>
+
+      <section class="page explore-page" data-page="/explore">
+        <div class="page-heading">
+          <p class="eyebrow">Explore</p>
+          <h2>Community <em>creations.</em></h2>
+        </div>
+
+        <div class="toolbar">
+          <button type="button" class="filter-chip active" data-filter="All">All</button>
+          <button type="button" class="filter-chip" data-filter="Images">Images</button>
+          <button type="button" class="filter-chip" data-filter="Videos">Videos</button>
+          <button type="button" class="filter-chip" data-filter="Trending">Trending</button>
+        </div>
+
+        <div class="explore-grid" data-explore-grid></div>
+      </section>
+
+      <section class="page pricing-page" data-page="/pricing">
+        <div class="page-heading">
+          <p class="eyebrow">Pricing</p>
+          <h2>Scale your <em>studio.</em></h2>
+        </div>
+
+        <div class="pricing-grid" data-pricing-grid></div>
+      </section>
+
+      <section class="page dashboard-page" data-page="/dashboard">
+        <div class="page-heading">
+          <p class="eyebrow">Account</p>
+          <h2>Your studio <em>profile.</em></h2>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="glass-panel profile-panel">
+            <div class="profile-top">
+              <div class="avatar" data-avatar>K</div>
+              <div>
+                <h3 data-user-name>Guest creator</h3>
+                <p data-user-email>Sign in to sync creations.</p>
+              </div>
+            </div>
+            <div class="status-list">
+              <div>
+                <span>Plan</span>
+                <strong data-plan-name>Free</strong>
+              </div>
+              <div>
+                <span>Account</span>
+                <strong data-account-status>Guest</strong>
+              </div>
+              <div>
+                <span>Email</span>
+                <strong data-email-status>Not signed in</strong>
+              </div>
+            </div>
+            <div class="stacked-actions">
+              <button class="primary-button" type="button" data-open-auth="signup">Create account</button>
+              <button class="ghost-button" type="button" data-open-auth="signin">Sign in</button>
+            </div>
+          </section>
+
+          <section class="glass-panel usage-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Usage</p>
+                <h3>Generation count</h3>
+              </div>
+              <button class="icon-button" type="button" aria-label="Refresh usage" data-refresh-dashboard>
+                <span class="icon refresh-icon" aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="usage-bars">
+              <div>
+                <span>Images</span>
+                <meter min="0" max="100" value="12" data-image-meter></meter>
+                <strong data-image-usage>12</strong>
+              </div>
+              <div>
+                <span>Videos</span>
+                <meter min="0" max="100" value="3" data-video-meter></meter>
+                <strong data-video-usage>3</strong>
+              </div>
+              <div>
+                <span>Saved</span>
+                <meter min="0" max="100" value="6" data-saved-meter></meter>
+                <strong data-saved-usage>6</strong>
+              </div>
+            </div>
+          </section>
+
+          <section class="glass-panel history-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">History</p>
+                <h3>Recent creations</h3>
+              </div>
+            </div>
+            <div class="history-list" data-history-list></div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <div class="modal-backdrop" data-auth-modal hidden>
+      <section class="modal glass-panel" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+        <button class="icon-button modal-close" type="button" aria-label="Close" data-close-modal>
+          <span class="icon close-icon" aria-hidden="true"></span>
+        </button>
+        <p class="eyebrow">Account</p>
+        <h2 id="auth-title" data-auth-title>Sign in to klv.ai</h2>
+        <div class="auth-tabs" role="tablist" aria-label="Account mode">
+          <button class="auth-tab active" type="button" role="tab" aria-selected="true" data-auth-tab="signin">Sign in</button>
+          <button class="auth-tab" type="button" role="tab" aria-selected="false" data-auth-tab="signup">Sign up</button>
+        </div>
+        <form data-auth-form>
+          <label class="field-label" for="auth-email">Email</label>
+          <input id="auth-email" name="email" type="email" placeholder="creator@studio.com" required>
+          <button class="primary-button full" type="submit" data-auth-submit>Sign in</button>
+          <button class="ghost-button full" type="button" data-google-auth>Continue with Google</button>
+        </form>
+      </section>
+    </div>
+
+    <div class="modal-backdrop" data-subscription-modal hidden>
+      <section class="modal glass-panel subscription-modal" role="dialog" aria-modal="true" aria-labelledby="subscription-title">
+        <button class="icon-button modal-close" type="button" aria-label="Close" data-close-modal>
+          <span class="icon close-icon" aria-hidden="true"></span>
+        </button>
+        <p class="eyebrow">Subscription</p>
+        <h2 id="subscription-title">Unlock the full <em>studio.</em></h2>
+        <p class="modal-copy" data-subscription-copy>Start with Pro for no watermark, faster generation, and more AI video-ready output.</p>
+        <div class="subscription-actions">
+          <button class="primary-button full" type="button" data-select-plan="Pro">Buy Pro subscription</button>
+          <button class="ghost-button full" type="button" data-go-pricing>View all plans</button>
+          <button class="ghost-button full" type="button" data-close-modal>Maybe later</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="toast-stack" data-toast-stack aria-live="polite" aria-atomic="true"></div>
+
+    <template id="creation-card-template">
+      <article class="creation-card">
+        <div class="creation-art">
+          <span class="watermark">Made with klv.ai</span>
+          <span class="media-badge"></span>
+        </div>
+        <div class="creation-body">
+          <h3></h3>
+          <p></p>
+          <div class="creation-actions">
+            <button class="icon-button" type="button" aria-label="Regenerate" data-regenerate>
+              <span class="icon refresh-icon" aria-hidden="true"></span>
+            </button>
+            <button class="icon-button" type="button" aria-label="Download" data-download>
+              <span class="icon download-icon" aria-hidden="true"></span>
+            </button>
+            <button class="icon-button" type="button" aria-label="Save" data-save>
+              <span class="icon bookmark-icon" aria-hidden="true"></span>
+            </button>
+            <button class="icon-button" type="button" aria-label="Like" data-like>
+              <span class="icon heart-icon" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <script src="/lib/captions.js"></script>
+    <script src="/app.js" defer></script>
+  </body>
+</html>
