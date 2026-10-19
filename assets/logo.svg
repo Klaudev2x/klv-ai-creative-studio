@@ -1,18 +1,41 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="klvGrad" x1="64" y1="52" x2="462" y2="474" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#39B8FF"/>
-      <stop offset=".38" stop-color="#2E7CF6"/>
-      <stop offset="1" stop-color="#8A3FFC"/>
+    <!-- Shared ramp: cyan (stem top) -> blue -> indigo -> violet -> magenta (leg tip) -->
+    <linearGradient id="klvRamp" x1="80" y1="50" x2="500" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2FB9F8"/>
+      <stop offset=".30" stop-color="#2E7CF6"/>
+      <stop offset=".55" stop-color="#5A4AF0"/>
+      <stop offset=".8" stop-color="#8B2FF0"/>
+      <stop offset="1" stop-color="#C63CFF"/>
+    </linearGradient>
+    <!-- Play button runs cooler: blue top, violet bottom -->
+    <linearGradient id="klvPlay" x1="330" y1="215" x2="400" y2="355" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3D9BF6"/>
+      <stop offset="1" stop-color="#9C36F8"/>
+    </linearGradient>
+    <!-- K arm: blue band -->
+    <linearGradient id="klvArm" x1="330" y1="110" x2="240" y2="320" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2E7CF6"/>
+      <stop offset="1" stop-color="#4740E8"/>
     </linearGradient>
   </defs>
 
-  <!-- K stem -->
-  <rect x="64" y="36" width="128" height="440" rx="64" fill="url(#klvGrad)"/>
+  <!-- Stem + swoosh leg as one continuous fill -->
+  <path fill="url(#klvRamp)" d="
+    M 190 122
+    Q 190 64 134 64
+    Q 79 64 79 122
+    L 79 425
+    Q 79 500 155 503
+    L 466 469
+    L 452 447
+    L 206 290
+    L 190 296
+    Z"/>
 
-  <!-- K arm: stem midpoint to top right -->
-  <path d="M150 252 L410 70" stroke="url(#klvGrad)" stroke-width="118" stroke-linecap="round" fill="none"/>
+  <!-- K arm: sharp-cut blue band -->
+  <path fill="url(#klvArm)" d="M 203 290 L 450 68 L 505 118 L 152 322 Z"/>
 
-  <!-- Play button: the K's lower arm -->
-  <path d="M292 156 L448 246 L292 336 Z" fill="url(#klvGrad)" stroke="url(#klvGrad)" stroke-width="46" stroke-linejoin="round"/>
+  <!-- Play button: the K's beat -->
+  <path fill="url(#klvPlay)" stroke="url(#klvPlay)" stroke-width="36" stroke-linejoin="round" d="M 322 236 L 399 280 L 322 324 Z"/>
 </svg>

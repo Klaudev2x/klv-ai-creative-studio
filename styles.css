@@ -134,7 +134,7 @@ img {
 }
 
 .brand-wordmark {
-  width: 118px;
+  width: 126px;
   height: auto;
 }
 
@@ -1875,7 +1875,7 @@ meter::-webkit-meter-optimum-value {
   }
 
   .brand-wordmark {
-    width: 96px;
+    width: 104px;
   }
 
   h1 {
@@ -2252,7 +2252,7 @@ h2 {
 }
 
 .brand-mark {
-  filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.55));
+  filter: drop-shadow(0 0 12px rgba(101, 88, 244, 0.55));
 }
 
 .primary-nav {

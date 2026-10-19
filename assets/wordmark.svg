@@ -1,6 +1,13 @@
-<svg width="118" height="40" viewBox="0 0 118 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <text x="0" y="29" fill="#F8FAFC" font-family="Inter, Arial, Helvetica, sans-serif" font-size="30" font-weight="500" letter-spacing="0">klv</text>
-  <text x="62" y="29" fill="#A6ABB4" font-family="Inter, Arial, Helvetica, sans-serif" font-size="30" font-weight="400" letter-spacing="0">ai</text>
-  <circle cx="54" cy="18" r="3.7" fill="#4DA3FF"/>
-  <circle cx="54" cy="18" r="8" stroke="#4DA3FF" stroke-opacity=".22"/>
+<svg width="132" height="40" viewBox="0 0 132 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="klvWordGrad" x1="0" y1="4" x2="70" y2="34" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#35B0F8"/>
+      <stop offset=".55" stop-color="#2E7CF6"/>
+      <stop offset="1" stop-color="#9C3BF5"/>
+    </linearGradient>
+  </defs>
+  <text x="0" y="30" fill="url(#klvWordGrad)" font-family="Inter, 'Segoe UI', Arial, Helvetica, sans-serif" font-size="31" font-weight="800" letter-spacing="-0.5">klv</text>
+  <!-- play-triangle dot echoing the mark -->
+  <path d="M57 13.5 L67 19.5 L57 25.5 Z" fill="url(#klvWordGrad)" stroke="url(#klvWordGrad)" stroke-width="4.5" stroke-linejoin="round"/>
+  <text x="73" y="30" fill="#EAEBF2" font-family="Inter, 'Segoe UI', Arial, Helvetica, sans-serif" font-size="31" font-weight="400" letter-spacing="0">ai</text>
 </svg>
