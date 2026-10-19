@@ -127,8 +127,8 @@ img {
 }
 
 .brand-mark {
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
   border-radius: var(--radius);
   box-shadow: 0 0 28px rgba(77, 163, 255, 0.22);
 }
