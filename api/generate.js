@@ -157,6 +157,68 @@ async function buildImageWithGemini(finalPrompt, aspect, references, apiKey) {
   }
 }
 
+// --- Cloudflare Workers AI image provider -----------------------------------
+// Activates when CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID are set (env or
+// .env). Free daily allowance comes with the account. Square renders use Flux
+// Schnell, 16:9 video keyframes use SDXL with explicit width/height. Any
+// failure falls through to the next provider in the chain.
+const CF_BASE = "https://api.cloudflare.com/client/v4/accounts";
+const CF_IMAGE_MODEL = (process.env.CLOUDFLARE_AI_MODEL || "@cf/black-forest-labs/flux-1-schnell").trim();
+const CF_VIDEO_MODEL = (process.env.CLOUDFLARE_VIDEO_MODEL || "@cf/stabilityai/stable-diffusion-xl-base-1.0").trim();
+
+async function buildImageWithCloudflare(finalPrompt, mode, token, account) {
+  const wide = mode === "video";
+  const url =
+    wide
+      ? `${CF_BASE}/${account}/ai/run/${encodeURIComponent(CF_VIDEO_MODEL).replace(/%2F/g, "/")}`
+      : `${CF_BASE}/${account}/ai/run/${encodeURIComponent(CF_IMAGE_MODEL).replace(/%2F/g, "/")}`;
+  const body = wide
+    ? { prompt: finalPrompt, width: 1024, height: 576, steps: 5 }
+    : { prompt: finalPrompt, steps: 4 };
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 90000);
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(body),
+      signal: controller.signal
+    });
+    if (!res.ok) {
+      console.warn(
+        "cloudflare rejected:",
+        res.status,
+        (await res.text().catch(() => "")).slice(0, 240)
+      );
+      return null;
+    }
+    const contentType = res.headers.get("content-type") || "";
+    let imageData = null;
+    let mime = "image/png";
+    if (contentType.includes("application/json")) {
+      const data = await res.json();
+      imageData = data && (data.result && data.result.image || data.image);
+    } else {
+      imageData = Buffer.from(await res.arrayBuffer()).toString("base64");
+    }
+    if (!imageData || String(imageData).length < 5000) return null;
+    return {
+      imageUrl: `data:${mime};base64,${imageData}`,
+      model: wide ? CF_VIDEO_MODEL : CF_IMAGE_MODEL
+    };
+  } catch (err) {
+    const reason = err && (err.name === "AbortError" ? "timeout" : err.message);
+    console.warn("cloudflare image error:", reason);
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -237,7 +299,39 @@ module.exports = async function handler(req, res) {
   const parts = [subject, styleMod, colorMod, modeMod].filter(Boolean);
   const finalPrompt = parts.join(", ").slice(0, 1500);
 
-  // --- Provider chain: Gemini (your key) -> Pollinations (free, no key) ---
+  // --- Quality (1-5): only the lowest uses the fast "turbo" model ---
+  const q = Number(quality) || 4;
+  const model = q <= 1 ? "turbo" : MODEL_BY_STYLE[style] || "flux";
+
+  // Seed locking: a client-provided seed keeps the character looking the same
+  // across regenerations and storyboard scenes. Random only when not given.
+  const requestedSeed = Number(payload.seed);
+  const seed =
+    Number.isInteger(requestedSeed) && requestedSeed >= 0 && requestedSeed < 2147483648
+      ? requestedSeed
+      : Math.floor(Math.random() * 2147483647);
+
+  // --- Provider chain: Cloudflare (your token) -> Gemini (key) -> Pollinations ---
+  const cfToken = (process.env.CLOUDFLARE_API_TOKEN || "").trim();
+  const cfAccount = (process.env.CLOUDFLARE_ACCOUNT_ID || "").trim();
+  if (cfToken && cfAccount) {
+    const cf = await buildImageWithCloudflare(finalPrompt, mode, cfToken, cfAccount);
+    if (cf) {
+      return sendJson(res, 200, {
+        ok: true,
+        imageUrl: cf.imageUrl,
+        provider: "cloudflare",
+        model: cf.model,
+        seed,
+        promptSource: promptEngine,
+        mode: mode || "image",
+        colorMode: colorMode || "full"
+      });
+    }
+    console.warn("cloudflare unavailable — trying the next provider for this render");
+  }
+
+  // --- Gemini (Nano Banana): your key ---------------------------------------
   // When GEMINI_API_KEY is configured, Nano Banana renders first (also
   // supporting uploaded references as photo -> style restyles). Any failure
   // silently falls back to the free Pollinations URL renderer below.
@@ -267,18 +361,6 @@ module.exports = async function handler(req, res) {
   // --- Dimensions: video = 16:9 keyframe, image = square (native max) ---
   const width = mode === "video" ? 1280 : 1024;
   const height = mode === "video" ? 720 : 1024;
-
-  // --- Quality (1-5): only the lowest uses the fast "turbo" model ---
-  const q = Number(quality) || 4;
-  const model = q <= 1 ? "turbo" : MODEL_BY_STYLE[style] || "flux";
-
-  // Seed locking: a client-provided seed keeps the character looking the same
-  // across regenerations and storyboard scenes. Random only when not given.
-  const requestedSeed = Number(payload.seed);
-  const seed =
-    Number.isInteger(requestedSeed) && requestedSeed >= 0 && requestedSeed < 2147483648
-      ? requestedSeed
-      : Math.floor(Math.random() * 2147483647);
 
   const imageUrl =
     "https://image.pollinations.ai/prompt/" +
