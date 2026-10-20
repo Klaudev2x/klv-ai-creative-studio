@@ -91,6 +91,72 @@ function colorDesignModifier(colors) {
   return bits.length ? `color design: ${bits.join(", ")}` : "";
 }
 
+// --- Gemini (Nano Banana) image provider ------------------------------------
+// Activates when GEMINI_API_KEY is set (env var or .env next to server.js).
+// This is Google's free-tier Gemini image generation (aistudio.google.com key).
+// Returns a base64 data URL; any failure (bad key, quota, timeout, model
+// unavailable) yields null and the request falls back to free Pollinations.
+const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta/models";
+
+async function buildImageWithGemini(finalPrompt, aspect, references, apiKey) {
+  const model = (process.env.GEMINI_IMAGE_MODEL || "gemini-2.5-flash-image").trim();
+  const parts = [{ text: finalPrompt }];
+
+  // Reference images: keep max 3 so the request stays inside serverless
+  // body limits (each arrives as a data URL from the client).
+  for (const ref of (Array.isArray(references) ? references : []).slice(0, 3)) {
+    const dataUrl = typeof ref === "string" ? ref : ref && ref.dataUrl;
+    if (typeof dataUrl !== "string" || !dataUrl.startsWith("data:")) continue;
+    const match = dataUrl.match(/^data:([^;,]+)(?:;[^,]*)?,(.+)$/);
+    if (match) {
+      parts.push({ inlineData: { mimeType: match[1], data: match[2] } });
+    }
+  }
+
+  const body = {
+    contents: [{ role: "user", parts }],
+    generationConfig: {
+      responseModalities: ["IMAGE"],
+      imageConfig: { aspectRatio: aspect }
+    }
+  };
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 90000);
+  try {
+    const res = await fetch(`${GEMINI_BASE}/${model}:generateContent`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": apiKey
+      },
+      body: JSON.stringify(body),
+      signal: controller.signal
+    });
+    if (!res.ok) {
+      console.warn(
+        "gemini image rejected:",
+        res.status,
+        (await res.text().catch(() => "")).slice(0, 240)
+      );
+      return null;
+    }
+    const data = await res.json();
+    const candidate = data && data.candidates && data.candidates[0];
+    const outParts = (candidate && candidate.content && candidate.content.parts) || [];
+    const inline = outParts.find((p) => p && p.inlineData && p.inlineData.data);
+    if (!inline) return null;
+    const mime = String(inline.inlineData.mimeType || "image/png").split(";")[0];
+    return { imageUrl: `data:${mime};base64,${inline.inlineData.data}`, model };
+  } catch (err) {
+    const reason = err && (err.name === "AbortError" ? "timeout" : err.message);
+    console.warn("gemini image error:", reason);
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -171,6 +237,33 @@ module.exports = async function handler(req, res) {
   const parts = [subject, styleMod, colorMod, modeMod].filter(Boolean);
   const finalPrompt = parts.join(", ").slice(0, 1500);
 
+  // --- Provider chain: Gemini (your key) -> Pollinations (free, no key) ---
+  // When GEMINI_API_KEY is configured, Nano Banana renders first (also
+  // supporting uploaded references as photo -> style restyles). Any failure
+  // silently falls back to the free Pollinations URL renderer below.
+  const geminiKey = (process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || "").trim();
+  if (geminiKey) {
+    const aspect = mode === "video" ? "16:9" : "1:1";
+    const hasReferences = Array.isArray(payload.references) && payload.references.length > 0;
+    const restyleNote = hasReferences
+      ? " Use the attached reference image(s) as the visual source: keep the same subject, and restyle it exactly as described."
+      : "";
+    const gem = await buildImageWithGemini(finalPrompt + restyleNote, aspect, payload.references, geminiKey);
+    if (gem) {
+      return sendJson(res, 200, {
+        ok: true,
+        imageUrl: gem.imageUrl,
+        provider: "gemini",
+        model: gem.model,
+        seed,
+        promptSource: promptEngine,
+        mode: mode || "image",
+        colorMode: colorMode || "full"
+      });
+    }
+    console.warn("gemini unavailable — falling back to Pollinations for this render");
+  }
+
   // --- Dimensions: video = 16:9 keyframe, image = square (native max) ---
   const width = mode === "video" ? 1280 : 1024;
   const height = mode === "video" ? 720 : 1024;
@@ -206,3 +299,6 @@ module.exports = async function handler(req, res) {
     colorMode: colorMode || "full"
   });
 };
+
+// Vercel: allow Google's image model enough time (Hobby supports up to 60s).
+module.exports.maxDuration = 60;

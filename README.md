@@ -22,6 +22,7 @@ API keys are read from real environment variables, or from a `.env` file placed 
 # .env (server-side only, never sent to the browser)
 OPENAI_API_KEY=sk-...
 ELEVENLABS_API_KEY=...
+GEMINI_API_KEY=...my-free-key...   # Nano Banana images: https://aistudio.google.com/apikey
 ```
 
 Open:
@@ -82,6 +83,7 @@ Both the **Enhance** button and **every generation** now run the user's idea thr
 - The LLM identifies what the idea actually is, then rewrites it into one optimized image prompt (subject, action, environment, lighting, palette, camera) — tailored to the selected style and mode.
 - **Provider chain**: OpenAI GPT (`OPENAI_API_KEY` + optional `OPENAI_MODEL`, server-side only) → free Pollinations text API (no key needed) → built-in offline enhancer. Failures fall back silently; the user's own words always win when no LLM answers.
 - **Automatic**: `/api/generate` engineers the prompt before composing the image URL, with a 200-entry cache so retries and repeated scene renders skip the round-trip. The response reports `promptSource` (`openai`, `pollinations`, or `original`) — the client toast shows which engine wrote the prompt.
+- **Gemini image generation, your key** (`POST /api/generate` with `GEMINI_API_KEY` set): Google's Nano Banana model (`gemini-2.5-flash-image`, override with `GEMINI_IMAGE_MODEL`) renders first. Uploaded reference photos (max 3) are passed as inline images so **photo → style** restyles work (keep the subject, restyle per the prompt). Every failure — bad key, quota, timeout, blocked output — silently falls back to the free Pollinations renderer, so generation never gets blocked. Result returns as a base64 data URL. Free keys: https://aistudio.google.com/apikey
 - No key is ever exposed to the frontend; no provider is ever on the critical path to failure.
 - **AI scene director** (`POST /api/scenes`, backed by `breakdownScenes` in `lib/prompt-engine.js`): the same LLM chain turns the narration script into a shot list of vivid per-shot visual descriptions (up to 8, JSON output, tolerant parsing). The Workflow panel's **AI scene director** button uses it; when no LLM provider answers it falls back to the mechanical sentence splitter and says so.
 
