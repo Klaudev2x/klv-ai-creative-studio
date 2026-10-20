@@ -2608,3 +2608,120 @@ input[type="range"] {
 .holo-frame::after {
   z-index: 1;
 }
+
+
+/* =============================================================
+   Mobile remake — one coherent pass for phones (<=640px)
+   ============================================================= */
+@media (max-width: 640px) {
+  /* Header: tighter, keep the lockup readable */
+  .site-header {
+    padding: 10px 14px;
+    min-height: 66px;
+  }
+
+  .brand-wordmark {
+    width: 118px;
+  }
+
+  /* Stop iOS auto-zoom on focus */
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+
+  /* Touch-sized controls everywhere */
+  .primary-button,
+  .ghost-button {
+    min-height: 44px;
+  }
+
+  .icon-button {
+    min-width: 42px;
+    min-height: 42px;
+  }
+
+  /* Example prompts: compact scrollable chip row instead of tall stack */
+  .example-prompts {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-inline: -16px;
+    padding-inline: 16px;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .example-prompts::-webkit-scrollbar {
+    display: none;
+  }
+
+  .example-prompts button {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: none;
+    white-space: nowrap;
+    font-size: 13px;
+    padding: 9px 13px;
+  }
+
+  /* Inspiration rail: snap carousel of photo cards */
+  .inspiration-rail {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin-inline: -16px;
+    padding: 2px 16px 10px;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .inspiration-rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .inspiration-rail button {
+    scroll-snap-align: start;
+    flex: 0 0 132px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 88px auto;
+    gap: 7px;
+    align-items: start;
+    padding: 7px;
+    border-radius: 14px;
+  }
+
+  .inspiration-rail img {
+    width: 100%;
+    height: 88px;
+    border-radius: 9px;
+    object-fit: cover;
+  }
+
+  .inspiration-rail span {
+    justify-self: start;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  /* Storyboard thumbs slightly chunkier on phones */
+  .scene-strip {
+    grid-auto-columns: 104px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Toasts: full-width docked above the safe area */
+  .toast-stack {
+    left: 12px;
+    right: 12px;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .toast {
+    position: relative;
+  }
+}
